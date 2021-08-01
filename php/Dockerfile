@@ -32,7 +32,7 @@ RUN wget https://getcomposer.org/installer -O - -q \
 
 COPY ./proxy/certs/*.pem /etc/apache2/ssl/
 COPY ./000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY ./default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY ./ssl-default.conf /etc/apache2/sites-enabled/ssl-default.conf
 
 # EXPOSE 80
 # EXPOSE 443
