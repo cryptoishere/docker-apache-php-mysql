@@ -1,0 +1,6 @@
+sql/*
+public_html/
+mysql/
+php/proxy/certs/*
+php/proxy/certs_localhost/*
+.env
