@@ -4,15 +4,20 @@ services:
   php:
     build:
       context: './php/'
+      args:
+        php_version: ${PHP}
+        certs: ${PATH_TO_CERTS}
+        default_apache_conf: ${DEFAULT_APACHE_CONF}
+        ssl_apache_conf: ${SSL_DEFAULT_APACHE_CONF}
     ports:
       - ${WEB_PORT}
       - ${WEB_SEC_PORT}
-    networks:
-      - backend
     volumes:
       - ${HOST_PATH}:/var/www/html/
     depends_on:
       - database
+    networks:
+      backend: {}
 
   database:
     image: ${MYSQL}
@@ -22,13 +27,13 @@ services:
     volumes:
       - ./fixMysqlBug1.cnf:/etc/mysql/conf.d/fixMysqlBug1.cnf
       - ./sql:/docker-entrypoint-initdb.d
-    networks:
-      - backend
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      backend: {}
 
 networks:
   backend:
