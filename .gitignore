@@ -1,6 +1,6 @@
 sql/*.sql
 public_html/
 mysql/
-php/proxy/certs/*.pem
-php/proxy/certs_localhost/*.pem
+apache/proxy/certs/
+apache/proxy/certs_localhost/
 .env

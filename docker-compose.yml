@@ -6,18 +6,12 @@ services:
       context: './php/'
       args:
         php_version: ${PHP}
-        certs: ${PATH_TO_CERTS}
-        default_apache_conf: ${DEFAULT_APACHE_CONF}
-        ssl_apache_conf: ${SSL_DEFAULT_APACHE_CONF}
     ports:
-      - ${WEB_PORT}
-      - ${WEB_SEC_PORT}
+      - ${PHP_PORT}
     volumes:
       - ${HOST_PATH}:/var/www/html/
     depends_on:
       - database
-    networks:
-      backend: {}
 
   database:
     image: ${MYSQL}
@@ -32,9 +26,31 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_USER: "${DB_USERNAME}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    networks:
-      backend: {}
 
-networks:
-  backend:
+  apache:
+    build:
+      context: './apache/'
+      args:
+        apache_version: ${APACHE}
+        certs: ${PATH_TO_CERTS}
+        default_apache_conf: ${DEFAULT_APACHE_CONF}
+        ssl_apache_conf: ${SSL_DEFAULT_APACHE_CONF}
+    ports:
+      - ${WEB_PORT}
+      - ${WEB_SEC_PORT}
+    volumes:
+      - ${HOST_PATH}:/var/www/html/
+    depends_on:
+      - php
+
+# networks:
+#   frontend:
+#     # Use a custom driver
+#     driver: custom-driver-1
+#   backend:
+#     # Use a custom driver which takes special options
+#     driver: custom-driver-2
+#     driver_opts:
+#     foo: "1"
+#     bar: "2"
 
